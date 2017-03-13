@@ -13,7 +13,7 @@ This repository contains a collection of Jupyter Notebooks, which teaches how to
 Most of the materials were borrowed from [the FEniCS Tutorial](https://fenicsproject.org/tutorial/) and [the FEniCS Book](https://fenicsproject.org/book/). However, they have been rearranged and expanded for teaching a FEM course and for the research in the NumGeom Group at Stony Brook University. 
 
 To get started, you need to set up a few software packages. It is relatively simple and painless:
- 1. Set up FEniCS and Jupyter Notebook by following the instructions [here](../../wiki/Setup-Jupyter-Notebook-to-Use-FEniCS-Notes).
+ 1. Set up FEniCS and Jupyter Notebook by following the instructions [here](https://github.com/numgeom/notes/wiki/Installation-Guides-for-Jupyter-Notebooks#make-fenics-work-with-jupyter-notebook).
  2. For proper rendering of LaTeX equations and theorems in the Jupyter Notebook, install `jupyter_latex_envs` by following the instructions [here](
 https://github.com/numgeom/fenics-notes/wiki/Useful-Addons-for-Jupyter-Notebook#latex-environments-jupyter_latex_envs).
  3. For professional 3-D visualization, you are highly recommended to install [ParaView](http://www.paraview.org/), which you can download at <http://www.paraview.org/download/>.
