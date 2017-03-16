@@ -4,7 +4,8 @@ This repository contains a collection of nots on FEniCS using Jupyter Notebooks,
  - Fundamentals of finite element methods
  - Modeling linear and nonlinear elasticity
  - Solving incompressible Navier-stokes equations
- - Generating complicated meshes for FEniCS and specifying boundary conditions
+ - Generating meshes
+ - Specifying boundary conditions
  - Selecting iterative solvers linear systems from FEniCS
  - Fluid-structure interaction
  - Multigrid methods
