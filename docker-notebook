@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 
 parser.add_argument('-u', "--user", nargs='?', help='''username & groupname name used in the image. The default is numgeom.''', default="numgeom")
 
-parser.add_argument('-i', '--image', nargs='?', help='''The Docker image to use The default is fenics-notebook.''', default="fenics-notebook")
+parser.add_argument('-i', '--image', nargs='?', help='''The Docker image to use The default is pdepack-notebook.''', default="pdepack-notebook")
 
 parser.add_argument('notebook', nargs='?', help='''The notebook to open.''', default="")
 
