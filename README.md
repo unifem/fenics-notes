@@ -21,7 +21,7 @@ To study the Notebooks, here is the recommended sequence:
  3. [Solving Navier-Stokes equations](notebooks/navier_stokes.ipynb)
     - [Case study: Navier-Stokes for a cylinder](notebooks/navier_stokes_cylinder.ipynb)
 
-To run these notebooks interactively, you need to set up some software packages on your computer. First, install Docker for your platform (Windows, MacOS, Linux, cloud platforms, etc.), follow the instructions at [docker.com](https://docs.docker.com/engine/getstarted/step_one/). Then, download this repository and start Jupyter Notebook using the following command in the directory that contains the notebook (e.g., poisson.ipynb):
+To run these notebooks interactively, you need to set up some software packages on your computer. First, install Docker for your platform (Windows, MacOS, Linux, cloud platforms, etc.), follow the instructions at [docker.com](https://docs.docker.com/engine/getstarted/step_one/). Then, download this repository and start Jupyter Notebook using the command `docker-notebook` script in the directory. For example, to open notebooks/poisson.ipynb, use the command:
 ```
-    docker-notebook poisson.ipynb
+    ./docker-notebook notebooks/poisson.ipynb
 ```

@@ -1,0 +1,99 @@
+#!/usr/bin/env python
+
+"""
+Launch Jupyter Notebook within a NumGeom notebook image within docker and 
+automatically open up the URL within the default web browser.
+"""
+
+from __future__ import print_function # Only Python 2.x
+
+import argparse
+
+# Process input arguments
+parser = argparse.ArgumentParser(description=__doc__)
+
+parser.add_argument('-u', "--user", nargs='?', help='''username & groupname name used in the image. The default is numgeom.''', default="numgeom")
+
+parser.add_argument('-i', '--image', nargs='?', help='''The Docker image to use The default is fenics-notebook.''', default="fenics-notebook")
+
+parser.add_argument('notebook', nargs='?', help='''The notebook to open.''', default="")
+
+args=parser.parse_args()
+image = args.image
+user = args.user
+notebook = args.notebook
+
+def random_ports(port, n):
+    """Generate a list of n random ports near the given port.
+
+    The first 5 ports will be sequential, and the remaining n-5 will be
+    randomly selected in the range [port-2*n, port+2*n].
+    """
+    import random
+
+    for i in range(min(5, n)):
+        yield port + i
+    for i in range(n-5):
+        yield max(1, port + random.randint(-2*n, 2*n))
+
+def find_free_port(port, retries):
+   "Find a free port"
+   import sys
+   import socket
+
+   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+   for port in random_ports(port, retries+1):
+      result = sock.connect_ex(('127.0.0.1', port))
+      if result:
+         return port
+
+   print("Error: Could not find a free port")
+   sys.exit(-1)
+
+if __name__ == "__main__":
+   import os
+   import subprocess
+   import sys
+   import webbrowser
+
+   pwd = os.getcwd()
+
+   # Find an unused port
+   port = str(find_free_port(8888, 50))
+
+   # Start the docker image and pipe the stderr
+   p = subprocess.Popen(["docker", "run", "--rm", 
+                         "-w", "/home/" + user + "/shared", 
+                         "-v", pwd + ":/home/" + user + "/shared", 
+                         "-p", port + ":" + port, 
+                         "quay.io/" + user +"/" + image, 
+                         "jupyter-notebook --no-browser --ip=0.0.0.0 --port " + port], 
+                        stderr=subprocess.PIPE, universal_newlines=True)
+   
+   try:
+      opened = False
+      # Monitor the stderr to extract the URL
+      for stderr_line in iter(p.stderr.readline, ""):
+         ind = stderr_line.find("http://0.0.0.0:")
+         sys.stderr.write(stderr_line)
+
+         if not opened and ind >= 0:
+            # Open browser if found URL
+            if not notebook:
+                webbrowser.open("http://localhost:" + stderr_line[ind+15:])
+            else:
+                webbrowser.open("http://localhost:" + port + "/notebooks/" + notebook + 
+                                stderr_line[stderr_line.find("?token="):])
+                
+            opened = True
+
+      p.stderr.close()
+      p.wait()
+   except KeyboardInterrupt:
+      # Terminate docker if user pressed Ctrl-C
+      try:
+         p.terminate()
+      except OSError:
+         pass
+      p.wait()
