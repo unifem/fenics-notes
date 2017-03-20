@@ -1,18 +1,23 @@
 #!/usr/bin/env python
 
 """
-Launch Jupyter Notebook within a NumGeom notebook image within docker and 
+Launch Jupyter Notebook within a Docker notebook image and 
 automatically open up the URL within the default web browser.
 """
+
+# Author: Xiangmin Jiao <xiangmin.jiao@stonybrook.edu>
 
 from __future__ import print_function # Only Python 2.x
 
 import argparse
+import random
+import string
+import sys
 
-# Process input arguments
+# Process command-line arguments
 parser = argparse.ArgumentParser(description=__doc__)
 
-parser.add_argument('-u', "--user", nargs='?', help='''username & groupname name used in the image. The default is numgeom.''', default="numgeom")
+parser.add_argument('-u', "--user", nargs='?', help='''username & groupname used by the image. The default is numgeom.''', default="numgeom")
 
 parser.add_argument('-i', '--image', nargs='?', help='''The Docker image to use The default is pdepack-notebook.''', default="pdepack-notebook")
 
@@ -22,6 +27,8 @@ args=parser.parse_args()
 image = args.image
 user = args.user
 notebook = args.notebook
+
+container = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
 
 def random_ports(port, n):
     """Generate a list of n random ports near the given port.
@@ -38,7 +45,6 @@ def random_ports(port, n):
 
 def find_free_port(port, retries):
    "Find a free port"
-   import sys
    import socket
 
    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,7 +60,6 @@ def find_free_port(port, retries):
 if __name__ == "__main__":
    import os
    import subprocess
-   import sys
    import webbrowser
 
    pwd = os.getcwd()
@@ -63,7 +68,7 @@ if __name__ == "__main__":
    port = str(find_free_port(8888, 50))
 
    # Start the docker image and pipe the stderr
-   p = subprocess.Popen(["docker", "run", "--rm", 
+   p = subprocess.Popen(["docker", "run", "--name", container,
                          "-w", "/home/" + user + "/shared", 
                          "-v", pwd + ":/home/" + user + "/shared", 
                          "-p", port + ":" + port, 
@@ -71,6 +76,7 @@ if __name__ == "__main__":
                          "jupyter-notebook --no-browser --ip=0.0.0.0 --port " + port], 
                         stderr=subprocess.PIPE, universal_newlines=True)
    
+   # Wait for user to press Ctrl-C twice
    try:
       opened = False
       # Monitor the stderr to extract the URL
@@ -91,9 +97,25 @@ if __name__ == "__main__":
       p.stderr.close()
       p.wait()
    except KeyboardInterrupt:
-      # Terminate docker if user pressed Ctrl-C
-      try:
-         p.terminate()
-      except OSError:
-         pass
-      p.wait()
+       # Terminate docker if user pressed Ctrl-C
+       while True:
+           try:
+               tosave = input('''Press Ctrl-C again to stop. To save your changes to the
+Docker image before exiting, type "commit":''')
+
+               if tosave.find("commit") >= 0:
+                   # Commit the image
+                   subprocess.call(["docker", "commit", container, "quay.io/" + user +"/" + image]);
+                   # Terminate the process and remove the docker container
+                   p.terminate()
+                   subprocess.call(["docker", "rm", container]);
+                   break
+               else:
+                   continue
+           except KeyboardInterrupt:
+               # Terminate the process and remove the docker container
+               p.terminate()
+               subprocess.call(["docker", "rm", container]);
+               break
+   except OSError:
+       pass
