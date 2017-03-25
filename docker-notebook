@@ -108,14 +108,14 @@ Docker image before exiting, type "commit":''')
                    subprocess.call(["docker", "commit", container, "quay.io/" + user +"/" + image]);
                    # Terminate the process and remove the docker container
                    p.terminate()
-                   subprocess.call(["docker", "rm", container]);
+                   subprocess.call(["docker", "rm", "-f", container]);
                    break
                else:
                    continue
            except KeyboardInterrupt:
                # Terminate the process and remove the docker container
                p.terminate()
-               subprocess.call(["docker", "rm", container]);
+               subprocess.call(["docker", "rm", "-f", container]);
                break
    except OSError:
        pass
