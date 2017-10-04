@@ -17,18 +17,22 @@ import sys
 # Process command-line arguments
 parser = argparse.ArgumentParser(description=__doc__)
 
-parser.add_argument('-u', "--user", nargs='?', help='''username & groupname used by the image. The default is numgeom.''', default="numgeom")
+parser.add_argument('-u', "--user", help='''username used by the image. The default is numgeom.''', default="numgeom")
 
-parser.add_argument('-i', '--image', nargs='?', help='''The Docker image to use The default is pdepack-notebook.''', default="pdepack-notebook")
+parser.add_argument('-i', '--image', help='''The Docker image to use The default is fenics-notebook.''', default="fenics-notebook")
+
+parser.add_argument('-n', '--no-pull', help='''Do not pull the latest Docker image from the server. The default is to pull.''', dest='pull', action='store_false')
+
+parser.set_defaults(pull=True)
+
 
 parser.add_argument('notebook', nargs='?', help='''The notebook to open.''', default="")
 
-args=parser.parse_args()
+args = parser.parse_args()
 image = args.image
 user = args.user
 notebook = args.notebook
-
-container = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
+pull = args.pull
 
 def random_ports(port, n):
     """Generate a list of n random ports near the given port.
@@ -50,11 +54,14 @@ def find_free_port(port, retries):
    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
    for port in random_ports(port, retries+1):
-      result = sock.connect_ex(('127.0.0.1', port))
-      if result:
-         return port
+       try:
+           sock.bind(("127.0.0.1", port))
+           sock.close()
+           return port
+       except socket.error as e:
+           continue
 
-   print("Error: Could not find a free port")
+   print("Error: Could not find a free port.")
    sys.exit(-1)
 
 if __name__ == "__main__":
@@ -64,25 +71,30 @@ if __name__ == "__main__":
 
    pwd = os.getcwd()
 
+   if pull:
+       subprocess.call(["docker", "pull", user +"/" + image])
+
    # Find an unused port
    port = str(find_free_port(8888, 50))
 
    # Start the docker image and pipe the stderr
-   p = subprocess.Popen(["docker", "run", "--name", container,
+   p = subprocess.Popen(["docker", "run", "--rm",
                          "-w", "/home/" + user + "/shared", 
                          "-v", pwd + ":/home/" + user + "/shared", 
-                         "-p", port + ":" + port, 
-                         "quay.io/" + user +"/" + image, 
+                         "-p", "127.0.0.1:" + port + ":" + port, 
+                         user +"/" + image, 
                          "jupyter-notebook --no-browser --ip=0.0.0.0 --port " + port], 
                         stderr=subprocess.PIPE, universal_newlines=True)
    
-   # Wait for user to press Ctrl-C twice
+   # Wait for user to press Ctrl-C
    try:
       opened = False
       # Monitor the stderr to extract the URL
       for stderr_line in iter(p.stderr.readline, ""):
+         if stderr_line.find("Use Control-C to stop this server") < 0:
+             sys.stderr.write(stderr_line)
+
          ind = stderr_line.find("http://0.0.0.0:")
-         sys.stderr.write(stderr_line)
 
          if not opened and ind >= 0:
             # Open browser if found URL
@@ -91,31 +103,13 @@ if __name__ == "__main__":
             else:
                 webbrowser.open("http://localhost:" + port + "/notebooks/" + notebook + 
                                 stderr_line[stderr_line.find("?token="):])
-                
             opened = True
+            sys.stderr.write("*** Use Control-C to stop this server.\n")
 
       p.stderr.close()
       p.wait()
    except KeyboardInterrupt:
-       # Terminate docker if user pressed Ctrl-C
-       while True:
-           try:
-               tosave = input('''Press Ctrl-C again to stop. To save your changes to the
-Docker image before exiting, type "commit":''')
-
-               if tosave.find("commit") >= 0:
-                   # Commit the image
-                   subprocess.call(["docker", "commit", container, "quay.io/" + user +"/" + image]);
-                   # Terminate the process and remove the docker container
-                   p.terminate()
-                   subprocess.call(["docker", "rm", "-f", container]);
-                   break
-               else:
-                   continue
-           except KeyboardInterrupt:
-               # Terminate the process and remove the docker container
-               p.terminate()
-               subprocess.call(["docker", "rm", "-f", container]);
-               break
+       sys.stderr.write("*** Stopping the server...\n")
+       p.wait()
    except OSError:
        pass
