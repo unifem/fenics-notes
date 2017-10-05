@@ -4,7 +4,7 @@ This repository contains a collection of nots on FEniCS using Jupyter Notebooks,
  - Fundamentals of finite element methods
  - Modeling linear and nonlinear elasticity
  - Solving the heat equation
- - Solving incompressible Navier-stokes equations
+ - Solving incompressible Navier-Stokes equations
  - Generating meshes
  - Specifying boundary conditions
  - Controlling iterative solvers
@@ -18,7 +18,7 @@ To study the Notebooks, here is the recommended sequence:
     - [Case study: deflection of a membrane using Poisson equations](notebooks/poisson_membrane.ipynb)
  2. [Modeling linear elasticity](notebooks/elasticity.ipynb)
  3. [Solving the heat equation](notebooks/heat-equation.ipynb)
- 4. [Solving Navier-Stokes equations](notebooks/navier_stokes.ipynb)
+ 4. [Solving incompressible Navier-Stokes equations](notebooks/navier_stokes.ipynb)
     - [Case study: Navier-Stokes for a cylinder](notebooks/navier_stokes_cylinder.ipynb)
 
 To run these notebooks interactively, use the ams529_jupyter.py script at https://github.com/compdatasci/ams529-desktop.
