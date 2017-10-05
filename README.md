@@ -1,17 +1,17 @@
 # FEniCS Notes
 
-This repository contains a collection of nots on FEniCS using Jupyter Notebooks, which teach how to use finite element methods to solve PDEs and to solve difficult linear systems from PDE discretizations using FEniCS. These Notes will teach you the following:
+This repository contains a collection of nots on FEniCS using Jupyter Notebooks, which teach how to use finite element methods to solve PDEs and to solve difficult linear systems from PDE discretizations using FEniCS. These notes will cover the following:
  - Fundamentals of finite element methods
  - Modeling linear and nonlinear elasticity
  - Solving the heat equation
  - Solving incompressible Navier-stokes equations
  - Generating meshes
  - Specifying boundary conditions
- - Selecting iterative solvers linear systems from FEniCS
+ - Controlling iterative solvers
  - Fluid-structure interaction
  - Multigrid methods
 
-Most of the materials were borrowed from [the FEniCS Tutorial](https://fenicsproject.org/tutorial/) and [the FEniCS Book](https://fenicsproject.org/book/). However, they have been rearranged and expanded for teaching a FEM course and for the research in the NumGeom Group at Stony Brook University. 
+Most of the materials were borrowed from [the FEniCS Tutorial](https://fenicsproject.org/tutorial/) and [the FEniCS Book](https://fenicsproject.org/book/). However, they have been rearranged and expanded for teaching an FEM course and for FEM research at Stony Brook University. 
 
 To study the Notebooks, here is the recommended sequence:
  1. [Fundamentals - Poisson equations](notebooks/poisson.ipynb)
