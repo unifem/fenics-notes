@@ -5,6 +5,7 @@ This repository contains a collection of nots on FEniCS using Jupyter Notebooks,
  - Modeling linear and nonlinear elasticity
  - Solving the heat equation
  - Solving incompressible Navier-Stokes equations
+ - Mixed finite element formulations for Stokes equations
  - Generating meshes
  - Specifying boundary conditions
  - Controlling iterative solvers
@@ -23,5 +24,7 @@ To study the Notebooks, here is the recommended sequence:
     - [Hyperelasticity](notebooks/hyperelasticity.ipynb)
  5. [Solving incompressible Navier-Stokes equations](notebooks/navier_stokes.ipynb)
     - [Case study: Navier-Stokes for a cylinder](notebooks/navier_stokes_cylinder.ipynb)
+ 6. [Mixed finite element formulations for Stokes equations](notebooks/Stokes_equations.ipynb)
+    - [Demo: Stokes equations with Stabilized first-order finite elements](notebooks/Stokes_equations_stabilized.ipynb)
 
 To run these notebooks interactively, use the ams529_jupyter.py script at https://github.com/compdatasci/ams529-desktop.
