@@ -1,6 +1,6 @@
 # FEniCS Notes
 
-This repository contains a collection of nots on FEniCS using Jupyter Notebooks, which teach how to use finite element methods to solve PDEs and to solve difficult linear systems from PDE discretizations using FEniCS. These notes will cover the following:
+This repository contains a collection of notes on FEniCS using Jupyter Notebooks, which teach how to use finite element methods to solve PDEs and to solve difficult linear systems from PDE discretizations using FEniCS. These notes are under construction. They will cover the following topics:
  - Fundamentals of finite element methods
  - Modeling linear and nonlinear elasticity
  - Solving the heat equation
