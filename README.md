@@ -25,6 +25,6 @@ To study the Notebooks, here is the recommended sequence:
  5. [Solving incompressible Navier-Stokes equations](notebooks/navier_stokes.ipynb)
     - [Case study: Navier-Stokes for a cylinder](notebooks/navier_stokes_cylinder.ipynb)
  6. [Mixed finite element formulations for Stokes equations](notebooks/Stokes_equations.ipynb)
-    - [Demo: Stokes equations with Stabilized first-order finite elements](notebooks/Stokes_equations_stabilized.ipynb)
+    - [Stokes equations with Stabilized first-order finite elements](notebooks/Stokes_equations_stabilized.ipynb)
 
 To run these notebooks interactively, use the ams529_jupyter.py script at https://github.com/compdatasci/ams529-desktop.
