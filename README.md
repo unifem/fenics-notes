@@ -12,7 +12,7 @@ This repository contains a collection of notes on FEniCS using Jupyter Notebooks
  - Fluid-structure interaction
  - Multigrid methods
 
-Most of the materials were borrowed from [the FEniCS Tutorial](https://fenicsproject.org/tutorial/) and [the FEniCS Book](https://fenicsproject.org/book/). However, they have been rearranged and expanded for teaching an FEM course and for FEM research at Stony Brook University. 
+Most of the materials were adapted from [the FEniCS Tutorial](https://fenicsproject.org/tutorial/) [the FEniCS Book](https://fenicsproject.org/book/), and [the FEniCS demos](https://bitbucket.org/fenics-project/dolfin/src/master/demo/documented/?at=master). However, they have been rearranged and expanded for teaching an FEM course and for FEM research at Stony Brook University. 
 
 To study the Notebooks, here is the recommended sequence:
  1. [Fundamentals - Poisson equations](notebooks/poisson.ipynb)
