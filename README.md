@@ -27,6 +27,6 @@ To study the Notebooks, here is the recommended sequence:
  6. [Mixed finite element formulations for Stokes equations](notebooks/Stokes_equations.ipynb)
     - [Stokes equations with Stabilized first-order finite elements](notebooks/Stokes_equations_stabilized.ipynb)
  7. [Advection-diffusion-reaction equations coupled with Navier-Stokes equations](notebooks/advection-diffusion-reaction.ipynb)
- 8. [Galerkin method with least-squares stablization for Convection-dominant](notebooks/convection-dominant.ipynb)
+ 8. [Galerkin method with least-squares stablization for Convection-dominant equations](notebooks/convection-dominant.ipynb)
 
 To run these notebooks interactively, use the ams529_jupyter.py script at https://github.com/compdatasci/ams529-desktop.
