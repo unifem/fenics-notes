@@ -7,11 +7,10 @@ This repository contains a collection of notes on FEniCS using Jupyter Notebooks
  - Solving incompressible Navier-Stokes equations
  - Mixed finite element formulations for Stokes equations
  - Advection-diffusion-reaction equations coupled with Navier-Stokes equations
+ - Convection-diffusion equations
  - Generating meshes
  - Specifying boundary conditions
  - Controlling iterative solvers
- - Fluid-structure interaction
- - Multigrid methods
 
 Most of the materials were adapted from [the FEniCS Tutorial](https://fenicsproject.org/tutorial/) [the FEniCS Book](https://fenicsproject.org/book/), and [the FEniCS demos](https://bitbucket.org/fenics-project/dolfin/src/master/demo/documented/?at=master). However, they have been rearranged and expanded for teaching and research at Stony Brook University. 
 
@@ -28,5 +27,6 @@ To study the Notebooks, here is the recommended sequence:
  6. [Mixed finite element formulations for Stokes equations](notebooks/Stokes_equations.ipynb)
     - [Stokes equations with Stabilized first-order finite elements](notebooks/Stokes_equations_stabilized.ipynb)
  7. [Advection-diffusion-reaction equations coupled with Navier-Stokes equations](notebooks/advection-diffusion-reaction.ipynb)
+ 8. [Galerkin method with least-squares stablization for Convection-dominant](notebooks/convection-dominant.ipynb)
 
 To run these notebooks interactively, use the ams529_jupyter.py script at https://github.com/compdatasci/ams529-desktop.
